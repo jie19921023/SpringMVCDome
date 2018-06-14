@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+        >
+
+    <context:component-scan base-package="com.zj"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="com.zj.util.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;text/javascript;text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                    <property name="writeAcceptCharset" value="false"/>
+                </bean>
+                <!-- 启动JSON格式的配置 -->
+                <bean id="jacksonMessageConverter"
+                      class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;text/javascript;text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <mvc:interceptors><!--拦截器的执行顺序是按照配置顺序 -->
+        <bean class="com.zj.util.LoginCheckInterceptor">
+            <property name="excludeUrlPatterns">
+                <list>
+                    <value></value><!-- 配置不需要用户登录的链接 -->
+                </list>
+            </property>
+        </bean>
+    </mvc:interceptors>
+
+    <!--配置全局异常处理 -->
+
+
+
+</beans>

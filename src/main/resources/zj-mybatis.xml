@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--引入配置参数 -->
+    <properties resource="filters/mysql.properties" />
+    <settings>
+        <setting name="cacheEnabled" value="false"/><!--true是开启二级缓存,mapper级别的,多个sqlsession共享,mapper文件中也需要配置 -->
+    </settings>
+    <!-- 配置Java类型和数据库类型的转换 -->
+    <typeHandlers>
+     <typeHandler handler="com.zj.mybitatsutil.SourceHandler" javaType="com.zj.enumutil.Source" jdbcType="TINYINT" />
+    </typeHandlers>
+    <!--配置事务和连接池 -->
+    <environments default="dev">
+        <!--可以配置多个环境 -->
+        <environment id="dev">
+            <transactionManager type="JDBC" />
+            <!-- 配置数据库连接信息 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}" />
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.name}" />
+                <property name="password" value="${jdbc.password}" />
+            </dataSource>
+        </environment>
+        <environment id="zj">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!-- 注册Mapper.xml文件，-->
+        <mapper resource="com/zj/dao/mapper/"/>
+    </mappers>
+</configuration>
